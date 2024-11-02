@@ -49,7 +49,8 @@ function install_node {
     read evm_address
 
     echo -e "${BLUE}Запускаем ноду в фоновом режиме...${NC}"
-    nohup rivalz run --evm-address "$evm_address" > rivalz_node.log 2>&1 &
+    echo -e "${YELLOW}Пожалуйста, введите вручную ваш EVM адрес, когда будет предложено во время запуска ноды.${NC}"
+    nohup rivalz run > rivalz_node.log 2>&1 &
     echo -e "${GREEN}Нода Rivalz успешно установлена и запущена в фоновом режиме.${NC}"
 
     echo -e "${BLUE}Возвращаемся в главное меню...${NC}"
