@@ -46,8 +46,7 @@ function install_node {
     npm i -g rivalz-node-cli
 
     echo -e "${BLUE}Запускаем ноду в новой сессии tmux...${NC}"
-    tmux new-session -d -s rivalz "rivalz run"
-    echo -e "${GREEN}Нода Rivalz успешно установлена и запущена в сессии tmux с именем 'rivalz'.${NC}"
+    tmux new-session -s rivalz "rivalz run"
 }
 
 function view_logs {
@@ -73,7 +72,7 @@ function main_menu {
         echo -e "${YELLOW}Введите номер:${NC} "
         read choice
         case $choice in
-            1) install_node ;;
+            1) install_node; tmux attach -t rivalz ;;
             2) view_logs ;;
             3) remove_node ;;
             4) break ;;
