@@ -48,11 +48,14 @@ function install_node {
     echo -e "${BLUE}Запускаем ноду в фоновом режиме...${NC}"
     nohup rivalz run > rivalz_node.log 2>&1 &
     echo -e "${GREEN}Нода Rivalz успешно установлена и запущена в фоновом режиме.${NC}"
+
+    echo -e "${BLUE}Возвращаемся в главное меню...${NC}"
+    main_menu
 }
 
 function view_logs {
-    echo -e "${YELLOW}Просмотр логов ноды...${NC}"
-    tail -f rivalz_node.log
+    echo -e "${YELLOW}Просмотр логов ноды (последние 50 строк)...${NC}"
+    tail -n 50 -f rivalz_node.log
 }
 
 function remove_node {
