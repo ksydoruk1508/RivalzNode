@@ -45,18 +45,19 @@ function install_node {
     sudo apt install -y nodejs
     npm i -g rivalz-node-cli
 
-    echo -e "${BLUE}Запускаем ноду в новой сессии tmux...${NC}"
-    tmux new-session -s rivalz "rivalz run"
+    echo -e "${BLUE}Запускаем ноду в фоновом режиме...${NC}"
+    nohup rivalz run > rivalz_node.log 2>&1 &
+    echo -e "${GREEN}Нода Rivalz успешно установлена и запущена в фоновом режиме.${NC}"
 }
 
 function view_logs {
-    echo -e "${YELLOW}Просмотр логов tmux сессии...${NC}"
-    echo -e "${YELLOW}Для входа в сессию используйте команду: tmux attach -t rivalz${NC}"
-    echo -e "${YELLOW}Для выхода из сессии без остановки ноды нажмите Ctrl+B, затем D.${NC}"
+    echo -e "${YELLOW}Просмотр логов ноды...${NC}"
+    tail -f rivalz_node.log
 }
 
 function remove_node {
     echo -e "${BLUE}Удаляем ноду Rivalz...${NC}"
+    pkill -f "rivalz run"
     npm uninstall -g rivalz-node-cli
     echo -e "${GREEN}Нода Rivalz успешно удалена.${NC}"
 }
@@ -72,7 +73,7 @@ function main_menu {
         echo -e "${YELLOW}Введите номер:${NC} "
         read choice
         case $choice in
-            1) install_node; tmux attach -t rivalz ;;
+            1) install_node ;;
             2) view_logs ;;
             3) remove_node ;;
             4) break ;;
