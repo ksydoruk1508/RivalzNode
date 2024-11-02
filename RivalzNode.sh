@@ -45,8 +45,11 @@ function install_node {
     sudo apt install -y nodejs
     npm i -g rivalz-node-cli
 
+    echo -e "${YELLOW}Введите ваш EVM адрес:${NC}"
+    read evm_address
+
     echo -e "${BLUE}Запускаем ноду в фоновом режиме...${NC}"
-    nohup rivalz run > rivalz_node.log 2>&1 &
+    nohup rivalz run --evm-address "$evm_address" > rivalz_node.log 2>&1 &
     echo -e "${GREEN}Нода Rivalz успешно установлена и запущена в фоновом режиме.${NC}"
 
     echo -e "${BLUE}Возвращаемся в главное меню...${NC}"
