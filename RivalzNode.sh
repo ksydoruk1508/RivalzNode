@@ -45,7 +45,9 @@ function install_node {
     sudo apt install -y nodejs
     npm i -g rivalz-node-cli
 
-    echo -e "${GREEN}Нода Rivalz успешно установлена!${NC}"
+    echo -e "${BLUE}Запускаем ноду в новой сессии tmux...${NC}"
+    tmux new-session -d -s rivalz "rivalz run"
+    echo -e "${GREEN}Нода Rivalz успешно установлена и запущена в сессии tmux с именем 'rivalz'.${NC}"
 }
 
 function run_node_tmux {
