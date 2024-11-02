@@ -50,12 +50,6 @@ function install_node {
     echo -e "${GREEN}Нода Rivalz успешно установлена и запущена в сессии tmux с именем 'rivalz'.${NC}"
 }
 
-function run_node_tmux {
-    echo -e "${BLUE}Запускаем ноду в новой сессии tmux...${NC}"
-    tmux new-session -d -s rivalz "rivalz run"
-    echo -e "${GREEN}Нода Rivalz запущена в сессии tmux с именем 'rivalz'.${NC}"
-}
-
 function view_logs {
     echo -e "${YELLOW}Просмотр логов tmux сессии...${NC}"
     echo -e "${YELLOW}Для входа в сессию используйте команду: tmux attach -t rivalz${NC}"
@@ -72,19 +66,17 @@ function main_menu {
     while true; do
         echo -e "${YELLOW}Выберите действие:${NC}"
         echo -e "${CYAN}1. Установка ноды${NC}"
-        echo -e "${CYAN}2. Запуск ноды в tmux${NC}"
-        echo -e "${CYAN}3. Просмотр логов${NC}"
-        echo -e "${CYAN}4. Удаление ноды${NC}"
-        echo -e "${CYAN}5. Выход${NC}"
+        echo -e "${CYAN}2. Просмотр логов${NC}"
+        echo -e "${CYAN}3. Удаление ноды${NC}"
+        echo -e "${CYAN}4. Выход${NC}"
        
         echo -e "${YELLOW}Введите номер:${NC} "
         read choice
         case $choice in
             1) install_node ;;
-            2) run_node_tmux ;;
-            3) view_logs ;;
-            4) remove_node ;;
-            5) break ;;
+            2) view_logs ;;
+            3) remove_node ;;
+            4) break ;;
             *) echo -e "${RED}Неверный выбор, попробуйте снова.${NC}" ;;
         esac
     done
