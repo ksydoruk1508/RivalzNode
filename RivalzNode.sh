@@ -69,13 +69,22 @@ function remove_node {
     echo -e "${GREEN}Нода Rivalz успешно удалена.${NC}"
 }
 
+function restart_node {
+    echo -e "${BLUE}Перезапускаем ноду Rivalz...${NC}"
+    pkill -f "rivalz run"
+    echo -e "${BLUE}Запускаем ноду в фоновом режиме...${NC}"
+    nohup rivalz run > rivalz_node.log 2>&1 &
+    echo -e "${GREEN}Нода Rivalz успешно перезапущена.${NC}"
+}
+
 function main_menu {
     while true; do
         echo -e "${YELLOW}Выберите действие:${NC}"
         echo -e "${CYAN}1. Установка ноды${NC}"
         echo -e "${CYAN}2. Просмотр логов${NC}"
         echo -e "${CYAN}3. Удаление ноды${NC}"
-        echo -e "${CYAN}4. Выход${NC}"
+        echo -e "${CYAN}4. Перезапуск ноды${NC}"
+        echo -e "${CYAN}5. Выход${NC}"
        
         echo -e "${YELLOW}Введите номер:${NC} "
         read choice
@@ -83,7 +92,8 @@ function main_menu {
             1) install_node ;;
             2) view_logs ;;
             3) remove_node ;;
-            4) break ;;
+            4) restart_node ;;
+            5) break ;;
             *) echo -e "${RED}Неверный выбор, попробуйте снова.${NC}" ;;
         esac
     done
