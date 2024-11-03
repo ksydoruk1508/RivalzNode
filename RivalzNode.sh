@@ -58,9 +58,9 @@ function install_node {
 }
 
 function view_logs {
-    echo -e "${YELLOW}Просмотр логов ноды (последние 50 строк)...${NC}"
-    tail -n 50 rivalz_node.log
-    echo -e "${YELLOW}Для выхода из просмотра нажмите Ctrl+C. Это не остановит ноду.${NC}"
+    echo -e "${YELLOW}Просмотр логов ноды (последние 50 строк, выход из режима просмотра: Ctrl+C)...${NC}"
+    tail -n 50 -f rivalz_node.log
+}Для выхода из просмотра нажмите Ctrl+C. Это не остановит ноду.${NC}"
 }
 
 function remove_node {
