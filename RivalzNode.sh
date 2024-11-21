@@ -57,8 +57,17 @@ function install_node {
     sudo apt install -y nodejs
     npm i -g rivalz-node-cli
 
+    if [ ! -f "$EVM_ADDRESS_FILE" ]; then
+        echo -e "${YELLOW}Введите ваш EVM адрес:${NC}"
+        read evm_address
+        echo "$evm_address" > "$EVM_ADDRESS_FILE"
+    fi
+    evm_address=$(cat "$EVM_ADDRESS_FILE")
+    echo -e "${GREEN}Используем EVM адрес: $evm_address${NC}"
+    fi
+
     echo -e "${BLUE}Запускаем ноду в фоновом режиме...${NC}"
-    nohup rivalz run > rivalz_node.log 2>&1 &
+    nohup rivalz run --wallet-address "$evm_address" > rivalz_node.log 2>&1 &
     echo -e "${GREEN}Нода Rivalz успешно установлена и запущена в фоновом режиме.${NC}"
 
     echo -e "${BLUE}Возвращаемся в главное меню...${NC}"
@@ -76,7 +85,8 @@ function remove_node {
     pkill -f "rivalz run"
     npm uninstall -g rivalz-node-cli
     rm -f "$EVM_ADDRESS_FILE"
-    echo -e "${GREEN}Нода Rivalz успешно удалена.${NC}"
+    rm -rf ~/.rivalz
+    echo -e "${GREEN}Нода Rivalz и папка .rivalz успешно удалены.${NC}"
 }
 
 function restart_node {
@@ -84,7 +94,7 @@ function restart_node {
     pkill -f "rivalz run"
     evm_address=$(cat "$EVM_ADDRESS_FILE")
     echo -e "${BLUE}Запускаем ноду в фоновом режиме...${NC}"
-    nohup rivalz run > rivalz_node.log 2>&1 &
+    nohup rivalz run --wallet-address "$evm_address" > rivalz_node.log 2>&1 &
     echo -e "${GREEN}Нода Rivalz успешно перезапущена.${NC}"
 }
 
