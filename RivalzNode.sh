@@ -43,6 +43,9 @@ Donate: 0x0004230c13c3890F34Bb9C9683b91f539E809000
 EOF
 echo -e "${NC}"
 
+# Файл для сохранения EVM адреса
+EVM_ADDRESS_FILE="evm_address.txt"
+
 function install_node {
     echo -e "${BLUE}Обновляем сервер...${NC}"
     sudo apt update && sudo apt upgrade -y && sudo apt install -y tmux
@@ -54,12 +57,17 @@ function install_node {
     sudo apt install -y nodejs
     npm i -g rivalz-node-cli
 
-    echo -e "${YELLOW}Введите ваш EVM адрес:${NC}"
-    read evm_address
+    if [ ! -f "$EVM_ADDRESS_FILE" ]; then
+        echo -e "${YELLOW}Введите ваш EVM адрес:${NC}"
+        read evm_address
+        echo "$evm_address" > "$EVM_ADDRESS_FILE"
+    else
+        evm_address=$(cat "$EVM_ADDRESS_FILE")
+        echo -e "${GREEN}Используем сохраненный EVM адрес: $evm_address${NC}"
+    fi
 
     echo -e "${BLUE}Запускаем ноду в фоновом режиме...${NC}"
-    echo -e "${YELLOW}Пожалуйста, введите вручную ваш EVM адрес, когда будет предложено во время запуска ноды.${NC}"
-    nohup rivalz run > rivalz_node.log 2>&1 &
+    nohup rivalz run --wallet-address "$evm_address" > rivalz_node.log 2>&1 &
     echo -e "${GREEN}Нода Rivalz успешно установлена и запущена в фоновом режиме.${NC}"
 
     echo -e "${BLUE}Возвращаемся в главное меню...${NC}"
@@ -72,19 +80,20 @@ function view_logs {
     echo -e "${BLUE}Возвращаемся в главное меню...${NC}"
 }
 
-
 function remove_node {
     echo -e "${BLUE}Удаляем ноду Rivalz...${NC}"
     pkill -f "rivalz run"
     npm uninstall -g rivalz-node-cli
+    rm -f "$EVM_ADDRESS_FILE"
     echo -e "${GREEN}Нода Rivalz успешно удалена.${NC}"
 }
 
 function restart_node {
     echo -e "${BLUE}Перезапускаем ноду Rivalz...${NC}"
     pkill -f "rivalz run"
+    evm_address=$(cat "$EVM_ADDRESS_FILE")
     echo -e "${BLUE}Запускаем ноду в фоновом режиме...${NC}"
-    nohup rivalz run > rivalz_node.log 2>&1 &
+    nohup rivalz run --wallet-address "$evm_address" > rivalz_node.log 2>&1 &
     echo -e "${GREEN}Нода Rivalz успешно перезапущена.${NC}"
 }
 
@@ -105,8 +114,7 @@ function main_menu {
             2) view_logs ;;
             3) remove_node ;;
             4) restart_node ;;
-            5) wget -q -O Ultimative_Node_Installer.sh https://raw.githubusercontent.com/ksydoruk1508/Ultimative_Node_Installer/main/Ultimative_Node_Installer.sh && sudo chmod +x Ultimative_Node_Installer.sh && ./Ultimative_Node_Installer.sh
-            ;;
+            5) wget -q -O Ultimative_Node_Installer.sh https://raw.githubusercontent.com/ksydoruk1508/Ultimative_Node_Installer/main/Ultimative_Node_Installer.sh && sudo chmod +x Ultimative_Node_Installer.sh && ./Ultimative_Node_Installer.sh ;;
             6) break ;;
             *) echo -e "${RED}Неверный выбор, попробуйте снова.${NC}" ;;
         esac
