@@ -61,10 +61,8 @@ function install_node {
         echo -e "${YELLOW}Введите ваш EVM адрес:${NC}"
         read evm_address
         echo "$evm_address" > "$EVM_ADDRESS_FILE"
-    fi
     evm_address=$(cat "$EVM_ADDRESS_FILE")
     echo -e "${GREEN}Используем EVM адрес: $evm_address${NC}"
-    fi
 
     echo -e "${BLUE}Запускаем ноду в фоновом режиме...${NC}"
     nohup rivalz run --wallet-address "$evm_address" > rivalz_node.log 2>&1 &
