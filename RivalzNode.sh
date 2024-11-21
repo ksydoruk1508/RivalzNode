@@ -66,7 +66,7 @@ function install_node {
     echo -e "${GREEN}Используем EVM адрес: $evm_address${NC}"
 
     echo -e "${BLUE}Запускаем ноду в фоновом режиме...${NC}"
-    nohup rivalz run --wallet-address "$evm_address" > rivalz_node.log 2>&1 &
+    nohup rivalz run > rivalz_node.log 2>&1 &
     echo -e "${GREEN}Нода Rivalz успешно установлена и запущена в фоновом режиме.${NC}"
 
     echo -e "${BLUE}Возвращаемся в главное меню...${NC}"
@@ -93,7 +93,7 @@ function restart_node {
     pkill -f "rivalz run"
     evm_address=$(cat "$EVM_ADDRESS_FILE")
     echo -e "${BLUE}Запускаем ноду в фоновом режиме...${NC}"
-    nohup rivalz run --wallet-address "$evm_address" > rivalz_node.log 2>&1 &
+    nohup rivalz run > rivalz_node.log 2>&1 &
     echo -e "${GREEN}Нода Rivalz успешно перезапущена.${NC}"
 }
 
